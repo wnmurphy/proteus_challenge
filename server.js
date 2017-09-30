@@ -4,6 +4,7 @@ const db = require('widgetdb');
 const bodyParser = require('body-parser');
 const PORT = 8000;
 let idCount = 0;
+
 app.use(bodyParser.json());
 
 
@@ -27,7 +28,7 @@ app.get('/:id', (req, res, next) => {
       if (data === undefined) {
         return Promise.reject("Can't retrieve record; ID not found");
       }
-      res.status(200).json({message: `Found record at ID: ${id}.`}, {data: data});
+      res.status(200).json({message: `Found record at ID: ${id}.`, value: data});
       })
     .catch(next);
 });
