@@ -1,51 +1,56 @@
 const express = require('express');
-const db = require('widgetdb');
 const app = express();
+const db = require('widgetdb');
+const bodyParser = require('body-parser');
 const PORT = 8000;
+let idCount = 0;
+app.use(bodyParser.json());
 
 
-// Handles root path.
-app.get('/', (req, res) => {
-  res.send('Server is live!')
+// Adds a new value.
+app.post('/', (req, res, next) => {
+  let value = req.body.value;
+  db.put(idCount.toString(), value)
+    .then((data)=>{
+      res.status(201).json({message: `New record added at ID: ${idCount}.`});
+      idCount++;
+    })
+    .catch(next);
 });
 
 
-// Retrieves a value by ID.
-app.get('/:id', (req, res) => {
+// Retrieves a value by id.
+app.get('/:id', (req, res, next) => {
   let id = req.params.id;
-  // Look up ID
-  db.get(1).then((data)=>{
-    res.send(200, data);
-  }).catch((err)=>{
-    res.send(500, 'Dang it, something broke.')
-  });
+  db.get(id)
+    .then((data)=>{
+      if (data === undefined) {
+        return Promise.reject("Can't retrieve record; ID not found");
+      }
+      res.status(200).json({message: `Found record at ID: ${id}.`}, {data: data});
+      })
+    .catch(next);
 });
 
 
-// Adds a new key-value pair in widgetdb.
-app.post('/', (req, res) => {
-  // Check that key doesn't already exist.
-  db.put(1, "success").then(()=>{
-    res.send(201, 'New record added to database');
-  }).catch((err)=>{
-    res.send(500, 'Dang it, something broke.')
-  });
-});
-
-
-// Updates a key-value pair by ID. 
-app.put('/:id', (req, res) => {
+// Updates a value by id.
+app.put('/:id', (req, res, next) => {
   let id = req.params.id;
-  // Check that key exists in db.
-  // Update the value for that key
-  res.send(202, 'Update accepted.');
+  let value = req.body.value;
+  db.get(id)
+    .then((data)=>{
+      if (data === undefined) {
+        return Promise.reject("Can't update record; ID not found");
+      }
+      return db.put(id.toString(), value)
+                .then((data)=>{
+                  res.status(200).json({message: `Updated record at ID: ${id}.`});
+                });
+      })
+    .catch(next);
 });
 
 
 app.listen(PORT, () => {
   console.log('Server listening on port ', PORT);
 });
-
-// TODO: Probably factor out helper function to check for record existence.
-
-
