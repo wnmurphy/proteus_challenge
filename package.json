@@ -1,0 +1,15 @@
+{
+  "name": "proteus_challenge",
+  "version": "1.0.0",
+  "description": "HTTP server providing CRUD operations for a simple key-value store.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.1",
+    "widgetdb": "git+https://github.com/stuartking/widgetdb.git"
+  }
+}
