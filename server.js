@@ -1,40 +1,50 @@
 const express = require('express');
-const widgetdb = require('widgetdb');
+const db = require('widgetdb');
 const app = express();
 const PORT = 8000;
+
 
 // Handles root path.
 app.get('/', (req, res) => {
   res.send('Server is live!')
 });
 
-// Retrieves a key-value pair by ID.
+
+// Retrieves a value by ID.
 app.get('/:id', (req, res) => {
+  let id = req.params.id;
   // Look up ID
-  // If ID not found, return error
-  // If ID found, return data
+  db.get(1).then((data)=>{
+    res.send(200, data);
+  }).catch((err)=>{
+    res.send(500, 'Dang it, something broke.')
+  });
 });
 
-// Creates a new key-value pair in widgetdb.
+
+// Adds a new key-value pair in widgetdb.
 app.post('/', (req, res) => {
-  res.send('Server is live!')
-}
+  // Check that key doesn't already exist.
+  db.put(1, "success").then(()=>{
+    res.send(201, 'New record added to database');
+  }).catch((err)=>{
+    res.send(500, 'Dang it, something broke.')
+  });
 });
+
 
 // Updates a key-value pair by ID. 
 app.put('/:id', (req, res) => {
-  // Look up ID
-  // If ID not found, return error
-  // If ID found, update data and return success.
-  res.send('Server is live!')
+  let id = req.params.id;
+  // Check that key exists in db.
+  // Update the value for that key
+  res.send(202, 'Update accepted.');
 });
 
 
 app.listen(PORT, () => {
   console.log('Server listening on port ', PORT);
 });
-
-// TODO: Maybe add delete later, for CRUD completeness.
 
 // TODO: Probably factor out helper function to check for record existence.
 
