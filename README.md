@@ -22,9 +22,9 @@ Endpoints exposed and their expected JSON request bodies are as follows:
 
   Creates a new key-value pair and returns the ID used as key. ID is automatically generated on each successful request.
 
-  Req: `{ "value" : "myValue" }`
+  **Req**: `{ "value" : "myValue" }`
 
-  Res: `{"message": "Found record at ID: myId.", "value": "myValue"}`
+  **Res**: `{"message": "Found record at ID: myId.", "value": "myValue"}`
 
   Gives `201 Created` on successful write to key-value store.
   
@@ -34,9 +34,9 @@ Endpoints exposed and their expected JSON request bodies are as follows:
 
   Retrieves a value for a given `:id` parameter specified in the path.
 
-  Req: N/A
+  **Req**: N/A
   
-  Res: `{"message": "Found record at ID: myId.", "value": "myValue"}`
+  **Res**: `{"message": "Found record at ID: myId.", "value": "myValue"}`
 
   Gives `200 OK` on successful retrieval.
   
@@ -47,9 +47,9 @@ Endpoints exposed and their expected JSON request bodies are as follows:
 
   Updates an existing value stored at a given `:id`.
 
-  Req: N/A
+  **Req**: N/A
   
-  Res: `{"message": "Found record at ID: myId.", "value": "myValue"}`
+  **Res**: `{"message": "Found record at ID: myId.", "value": "myValue"}`
 
   Gives `200 OK` on successful update.
   
